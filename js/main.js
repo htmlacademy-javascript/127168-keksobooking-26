@@ -1,23 +1,26 @@
-function checkArguments (min, max, functionName) {
-  if (min >= max) {
-    throw Error(`В функции ${functionName} начальное число больше или равно конечному`);
-  }
-  if (min < 0 || max < 0) {
-    throw Error(`В функции ${functionName} передан аргумент меньше нуля`);
-  }
+function getRandomIntFromInterval (a, b) {
+  // Функция взята из интернета и доработана
+  // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
+
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+
+  const result = Math.random() * (upper - lower + 1) + lower;
+
+  return Math.floor(result);
 }
 
-function randomIntFromInterval (min, max) {
-  checkArguments (min, max, 'randomIntFromInterval');
-  // Формула взята из https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
-  return Math.floor(Math.random() * (max - min + 1) + min);
+function getRandomFloatFromInterval (a, b, counter = 2) {
+  // Функция взята из интернета и доработана
+  // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
+
+  const lower = Math.min(Math.abs(a), Math.abs(b));
+  const upper = Math.max(Math.abs(a), Math.abs(b));
+
+  const result = Math.random() * (upper - lower) + lower;
+
+  return +result.toFixed(counter);
 }
 
-function randomFloatFromInterval (min, max, counter = 2) {
-  checkArguments (min, max, 'randomFloatFromInterval');
-
-  return +(Math.random() * (max - min) + min).toFixed(counter);
-}
-
-randomIntFromInterval(1,10);
-randomFloatFromInterval(100,10000);
+getRandomIntFromInterval(1,10);
+getRandomFloatFromInterval(100,10000);
