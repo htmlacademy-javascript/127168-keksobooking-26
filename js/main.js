@@ -121,7 +121,7 @@ const createDescription = () => {
   const lng = getRandomFloatFromInterval (MIN_LNG, MAX_LNG, 5);
   const userID = createUserID();
 
-  const description = {
+  return {
     author: {
       avatar: `img/avatars/user${userID}.png`,
     },
@@ -144,8 +144,6 @@ const createDescription = () => {
       lng
     }
   };
-
-  return description;
 };
 
 console.log(Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription));
