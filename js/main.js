@@ -97,27 +97,14 @@ const getRandomElements = (elements) => {
 
 const correctCounter = (counter) => counter < 10 ? `0${counter}` : counter.toString();
 
-const usedIdentificators = [];
 
-const createUserID = () => {
-  const id = getRandomIntFromInterval(1, 10);
-  if (usedIdentificators.includes(id)) {
-    return createUserID();
-  }
-  usedIdentificators.push(id);
-
-  return correctCounter(id);
-};
-
-
-const createDescription = () => {
+const createDescription = (id) => {
   const lat = getRandomFloatFromInterval (MIN_LAT, MAX_LAT, 5);
   const lng = getRandomFloatFromInterval (MIN_LNG, MAX_LNG, 5);
-  const userID = createUserID();
 
   return {
     author: {
-      avatar: `img/avatars/user${userID}.png`,
+      avatar: `img/avatars/user${correctCounter(id)}.png`,
     },
 
     offer: {
@@ -140,6 +127,6 @@ const createDescription = () => {
   };
 };
 
-const createDescriptions = () => Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription);
+const createDescriptions = () => Array.from({length: SIMILAR_DESCRIPTION_COUNT}, (_, itemIndex) => createDescription(itemIndex+1));
 
 console.log(createDescriptions());
