@@ -50,7 +50,7 @@ const MIN_LNG = 139.70000;
 const MAX_LNG = 139.80000;
 
 
-function getRandomIntFromInterval (a, b) {
+const getRandomIntFromInterval = (a, b) => {
   // Функция взята из интернета и доработана
   // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 
@@ -60,9 +60,9 @@ function getRandomIntFromInterval (a, b) {
   const result = Math.random() * (upper - lower + 1) + lower;
 
   return Math.floor(result);
-}
+};
 
-function getRandomFloatFromInterval (a, b, counter = 2) {
+const getRandomFloatFromInterval = (a, b, counter = 2) => {
   // Функция взята из интернета и доработана
   // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 
@@ -72,13 +72,12 @@ function getRandomFloatFromInterval (a, b, counter = 2) {
   const result = Math.random() * (upper - lower) + lower;
 
   return +result.toFixed(counter);
-}
+};
 
-function getRandomArrayElement (elements) {
-  return elements[getRandomIntFromInterval(0, elements.length - 1)];
-}
+const getRandomArrayElement = (elements) => elements[getRandomIntFromInterval(0, elements.length - 1)];
 
-function getRandomElements (elements) {
+
+const getRandomElements = (elements) => {
   const numOfElements = getRandomIntFromInterval(1, elements.length);
   const usedElements = [];
 
@@ -94,19 +93,19 @@ function getRandomElements (elements) {
   }
 
   return usedElements;
-}
+};
 
-function correctCounter (counter) {
+const correctCounter = (counter) => {
   if (counter < 10) {
     return `0${counter}`;
   }
 
   return counter;
-}
+};
 
 const usedIdentificators = [];
 
-function createUserID () {
+const createUserID = () => {
   const id = getRandomIntFromInterval(1, 10);
   if (usedIdentificators.includes(id)) {
     return createUserID();
@@ -114,10 +113,10 @@ function createUserID () {
   usedIdentificators.push(id);
 
   return correctCounter(id);
-}
+};
 
 
-function createDescription () {
+const createDescription = () => {
   const lat = getRandomFloatFromInterval (MIN_LAT, MAX_LAT, 5);
   const lng = getRandomFloatFromInterval (MIN_LNG, MAX_LNG, 5);
   const userID = createUserID();
@@ -147,6 +146,6 @@ function createDescription () {
   };
 
   return description;
-}
+};
 
-Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription);
+console.log(Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription));
