@@ -62,7 +62,7 @@ const getRandomIntFromInterval = (a, b) => {
   return Math.floor(result);
 };
 
-const getRandomFloatFromInterval = (a, b, counter = 2) => {
+const getRandomFloatFromInterval = (a, b, counter = 5) => {
   // Функция взята из интернета и доработана
   // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 
@@ -99,8 +99,8 @@ const correctCounter = (counter) => counter < 10 ? `0${counter}` : counter.toStr
 
 
 const createDescription = (id) => {
-  const lat = getRandomFloatFromInterval (MIN_LAT, MAX_LAT, 5);
-  const lng = getRandomFloatFromInterval (MIN_LNG, MAX_LNG, 5);
+  const lat = getRandomFloatFromInterval (MIN_LAT, MAX_LAT);
+  const lng = getRandomFloatFromInterval (MIN_LNG, MAX_LNG);
 
   return {
     author: {
