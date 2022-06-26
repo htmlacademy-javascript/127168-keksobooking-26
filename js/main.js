@@ -140,4 +140,6 @@ const createDescription = () => {
   };
 };
 
-console.log(Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription));
+const createDescriptions = () => Array.from({length: SIMILAR_DESCRIPTION_COUNT}, createDescription);
+
+console.log(createDescriptions());
