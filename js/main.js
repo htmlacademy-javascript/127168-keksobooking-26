@@ -95,13 +95,7 @@ const getRandomElements = (elements) => {
   return usedElements;
 };
 
-const correctCounter = (counter) => {
-  if (counter < 10) {
-    return `0${counter}`;
-  }
-
-  return counter;
-};
+const correctCounter = (counter) => counter < 10 ? `0${counter}` : counter.toString();
 
 const usedIdentificators = [];
 
