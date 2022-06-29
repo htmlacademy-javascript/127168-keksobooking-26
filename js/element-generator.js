@@ -11,34 +11,39 @@ const descriptionListFragment = document.createDocumentFragment();
 descriptions.forEach(({author, offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
 
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('[data-price]').textContent = offer.price;
-  cardElement.querySelector('.popup__text--capacity')
-    .textContent = `${offer.rooms} комнат${(offer.rooms === 1) ? 'a' : 'ы'} для ${offer.guests} гост${(offer.guests === 1) ? 'я' : 'ей'}`;
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  cardElement.querySelector('.popup__description').textContent = offer.description;
+  const fillContent = (selector, content) => {
+    cardElement.querySelector(selector).textContent = content;
+  };
+
+  fillContent('.popup__title', offer.title);
+  fillContent('.popup__text--address', offer.address);
+  fillContent('[data-price]', offer.price);
+  fillContent('.popup__text--capacity',
+    `${offer.rooms} комнат${(offer.rooms === 1) ? 'a' : 'ы'} для ${offer.guests} гост${(offer.guests === 1) ? 'я' : 'ей'}`);
+  fillContent('.popup__text--time',
+    `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
+  cardElement.querySelector('.popup__description', offer.description);
+
   cardElement.querySelector('.popup__avatar').src = author.avatar;
 
-  const houseType = cardElement.querySelector('.popup__type');
   switch (offer.type) {
     case 'flat':
-      houseType.textContent = 'Квартира';
+      fillContent('.popup__type', 'Квартира');
       break;
     case 'bungalow':
-      houseType.textContent = 'Бунгало';
+      fillContent('.popup__type', 'Бунгало');
       break;
     case 'house':
-      houseType.textContent = 'Дом';
+      fillContent('.popup__type', 'Дом');
       break;
     case 'palace':
-      houseType.textContent = 'Дворец';
+      fillContent('.popup__type', 'Дворец');
       break;
     case 'hotel':
-      houseType.textContent = 'Отель';
+      fillContent('.popup__type', 'Отель');
       break;
     default:
-      houseType.textContent =  '';
+      cardElement.querySelector('.popup__type').remove();
   }
 
   const featuresList = cardElement.querySelectorAll('.popup__feature');
