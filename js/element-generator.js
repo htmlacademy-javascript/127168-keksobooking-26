@@ -1,5 +1,13 @@
 import {createDescriptions} from './data.js';
 
+const houseTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель'
+};
+
 const mapBlock = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card')
   .content
@@ -23,6 +31,7 @@ descriptions.forEach(({author, offer}) => {
   fillContent('.popup__text--address', offer.address);
   fillContent('[data-price]', offer.price);
   fillContent('.popup__description', offer.description);
+  fillContent('.popup__type', houseTypes[offer.type]);
 
   if (author.avatar) {
     cardElement.querySelector('.popup__avatar').src = author.avatar;
@@ -42,26 +51,6 @@ descriptions.forEach(({author, offer}) => {
       `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
   } else {
     cardElement.querySelector('.popup__text--time').remove();
-  }
-
-  switch (offer.type) {
-    case 'flat':
-      fillContent('.popup__type', 'Квартира');
-      break;
-    case 'bungalow':
-      fillContent('.popup__type', 'Бунгало');
-      break;
-    case 'house':
-      fillContent('.popup__type', 'Дом');
-      break;
-    case 'palace':
-      fillContent('.popup__type', 'Дворец');
-      break;
-    case 'hotel':
-      fillContent('.popup__type', 'Отель');
-      break;
-    default:
-      cardElement.querySelector('.popup__type').remove();
   }
 
   const featuresList = cardElement.querySelectorAll('.popup__feature');
