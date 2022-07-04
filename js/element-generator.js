@@ -18,6 +18,14 @@ const createImageElement = (source) => {
   return imageElement;
 };
 
+const createFeatureElement = (className, extencionClassName) => {
+  const featureElement = document.createElement('li');
+  featureElement.classList.add(className, `${className}--${extencionClassName}`);
+  return featureElement;
+};
+
+const FEATURE_CLASS_NAME = 'popup__feature';
+
 const mapBlock = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card')
   .content
@@ -59,13 +67,12 @@ descriptions.forEach(({author, offer}) => {
     cardElement.querySelector('.popup__text--time').remove();
   }
 
-  const featuresList = cardElement.querySelectorAll('.popup__feature');
+  const featuresList = cardElement.querySelector('.popup__features');
   if (offer.features && offer.features.length !== 0) {
-    featuresList.forEach((featureListItem) => {
-      const isFeature = offer.features.some((offerFeature) => featureListItem.classList.contains(`popup__feature--${offerFeature}`));
-      if (!isFeature) {
-        featureListItem.remove();
-      }
+    featuresList.textContent = '';
+    offer.features.forEach((feature) => {
+      const newFeature = createFeatureElement(FEATURE_CLASS_NAME, feature);
+      featuresList.append(newFeature);
     });
   } else {
     cardElement.querySelector('.popup__features').remove();
