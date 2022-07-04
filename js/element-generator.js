@@ -24,6 +24,14 @@ const createFeatureElement = (className, extencionClassName) => {
   return featureElement;
 };
 
+const fillContent = (element, selector, content, attribute='textContent') => {
+  if (content) {
+    element.querySelector(selector)[attribute] = content;
+  } else {
+    element.querySelector(selector).remove();
+  }
+};
+
 const FEATURE_CLASS_NAME = 'popup__feature';
 
 const mapBlock = document.querySelector('#map-canvas');
@@ -37,31 +45,22 @@ const descriptionListFragment = document.createDocumentFragment();
 descriptions.forEach(({author, offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
 
-  const fillContent = (selector, content, attribute='textContent') => {
-    if (content) {
-      cardElement.querySelector(selector)[attribute] = content;
-    } else {
-      cardElement.querySelector(selector).remove();
-    }
-  };
-
-  fillContent('.popup__title', offer.title);
-  fillContent('.popup__text--address', offer.address);
-  fillContent('.popup__text--price', `${offer.price} ₽/ночь`);
-  fillContent('.popup__description', offer.description);
-  fillContent('.popup__type', houseTypes[offer.type]);
-  fillContent('.popup__avatar', author.avatar, 'src');
-
+  fillContent(cardElement, '.popup__title', offer.title);
+  fillContent(cardElement, '.popup__text--address', offer.address);
+  fillContent(cardElement, '.popup__text--price', `${offer.price} ₽/ночь`);
+  fillContent(cardElement, '.popup__description', offer.description);
+  fillContent(cardElement, '.popup__type', houseTypes[offer.type]);
+  fillContent(cardElement, '.popup__avatar', author.avatar, 'src');
 
   if (offer.rooms && offer.guests) {
-    fillContent('.popup__text--capacity',
+    fillContent(cardElement, '.popup__text--capacity',
       `${offer.rooms} комнат${(offer.rooms === 1) ? 'a' : 'ы'} для ${offer.guests} гост${(offer.guests === 1) ? 'я' : 'ей'}`);
   } else {
     cardElement.querySelector('.popup__text--capacity').remove();
   }
 
   if (offer.checkin && offer.checkout) {
-    fillContent('.popup__text--time',
+    fillContent(cardElement, '.popup__text--time',
       `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
   } else {
     cardElement.querySelector('.popup__text--time').remove();
