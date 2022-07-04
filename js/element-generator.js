@@ -1,4 +1,5 @@
 import {createDescriptions} from './data.js';
+import {correctEndOfWord} from './util.js';
 
 const houseTypes = {
   flat: 'Квартира',
@@ -53,8 +54,10 @@ descriptions.forEach(({author, offer}) => {
   fillContent(cardElement, '.popup__avatar', author.avatar, 'src');
 
   if (offer.rooms && offer.guests) {
+    const roomWord = correctEndOfWord(offer.rooms, 'комнат', ['а', 'ы', '']);
+    const guestWord = correctEndOfWord(offer.guests, 'гост', ['я', 'ей', 'ей']);
     fillContent(cardElement, '.popup__text--capacity',
-      `${offer.rooms} комнат${(offer.rooms === 1) ? 'a' : 'ы'} для ${offer.guests} гост${(offer.guests === 1) ? 'я' : 'ей'}`);
+      `${offer.rooms} ${roomWord} для ${offer.guests} ${guestWord}`);
   } else {
     cardElement.querySelector('.popup__text--capacity').remove();
   }
