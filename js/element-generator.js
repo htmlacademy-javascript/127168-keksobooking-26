@@ -29,7 +29,7 @@ descriptions.forEach(({author, offer}) => {
 
   fillContent('.popup__title', offer.title);
   fillContent('.popup__text--address', offer.address);
-  fillContent('[data-price]', offer.price);
+  fillContent('.popup__text--price', `${offer.price} ₽/ночь`);
   fillContent('.popup__description', offer.description);
   fillContent('.popup__type', houseTypes[offer.type]);
 
