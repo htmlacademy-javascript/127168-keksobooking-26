@@ -41,10 +41,10 @@ const cardTemplate = document.querySelector('#card')
   .querySelector('.popup');
 
 const descriptions = createDescriptions();
-const descriptionListFragment = document.createDocumentFragment();
 
-descriptions.forEach(({author, offer}) => {
-  const cardElement = cardTemplate.cloneNode(true);
+const createDescriptionCopy = (template, descriptionData) => {
+  const {author, offer} = descriptionData;
+  const cardElement = template.cloneNode(true);
 
   fillContent(cardElement, '.popup__title', offer.title);
   fillContent(cardElement, '.popup__text--address', offer.address);
@@ -88,7 +88,19 @@ descriptions.forEach(({author, offer}) => {
     popupPhotos.remove();
   }
 
-  descriptionListFragment.append(cardElement);
-});
+  return cardElement;
+};
 
-mapBlock.append(descriptionListFragment.firstChild);
+const createDescriptionListFragment = (descriptionTemplate, descriptionData) => {
+  const descriptionListFragment = document.createDocumentFragment();
+
+  descriptionData.forEach((description) => {
+    const cardElement = createDescriptionCopy(descriptionTemplate, description);
+    descriptionListFragment.append(cardElement);
+  });
+  return descriptionListFragment;
+};
+
+const newDescriptions = createDescriptionListFragment(cardTemplate, descriptions);
+
+mapBlock.append(newDescriptions.firstChild);
