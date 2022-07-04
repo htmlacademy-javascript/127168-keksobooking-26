@@ -19,9 +19,9 @@ const descriptionListFragment = document.createDocumentFragment();
 descriptions.forEach(({author, offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
 
-  const fillContent = (selector, content) => {
+  const fillContent = (selector, content, attribute='textContent') => {
     if (content) {
-      cardElement.querySelector(selector).textContent = content;
+      cardElement.querySelector(selector)[attribute] = content;
     } else {
       cardElement.querySelector(selector).remove();
     }
@@ -32,12 +32,8 @@ descriptions.forEach(({author, offer}) => {
   fillContent('.popup__text--price', `${offer.price} ₽/ночь`);
   fillContent('.popup__description', offer.description);
   fillContent('.popup__type', houseTypes[offer.type]);
+  fillContent('.popup__avatar', author.avatar, 'src');
 
-  if (author.avatar) {
-    cardElement.querySelector('.popup__avatar').src = author.avatar;
-  } else {
-    cardElement.querySelector('.popup__avatar').remove();
-  }
 
   if (offer.rooms && offer.guests) {
     fillContent('.popup__text--capacity',
