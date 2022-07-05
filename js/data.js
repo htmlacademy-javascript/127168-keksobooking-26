@@ -85,6 +85,6 @@ const createDescription = (id) => {
   };
 };
 
-const createDescriptions = () => Array.from({length: SIMILAR_DESCRIPTION_COUNT}, (_, itemIndex) => createDescription(itemIndex + 1));
+const createDescriptions = (count = SIMILAR_DESCRIPTION_COUNT) => Array.from({length: count}, (_, itemIndex) => createDescription(itemIndex + 1));
 
 export {createDescriptions};

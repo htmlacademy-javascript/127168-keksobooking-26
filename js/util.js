@@ -44,8 +44,25 @@ const getRandomElements = (elements) => {
 
 const correctCounter = (counter) => counter < 10 ? `0${counter}` : counter.toString();
 
+const correctEndOfWord = (number, word, wordEndings) => {
+  // Функция взята из интернета и доработана
+  // Источник - https://realadmin.ru/coding/sklonenie-na-javascript.html
+
+  number = Math.abs(number) % 100;
+  const supportNum = number % 10;
+  if (number > 10 && number < 20) {
+    return `${word}${wordEndings[2]}`;
+  } else if (supportNum > 1 && supportNum < 5) {
+    return `${word}${wordEndings[1]}`;
+  } else if (supportNum === 1) {
+    return `${word}${wordEndings[0]}`;
+  }
+  return `${word}${wordEndings[2]}`;
+};
+
 export {getRandomIntFromInterval,
   getRandomFloatFromInterval,
   getRandomArrayElement,
   getRandomElements,
-  correctCounter};
+  correctCounter,
+  correctEndOfWord};
