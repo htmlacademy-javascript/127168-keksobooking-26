@@ -52,9 +52,11 @@ const correctEndOfWord = (number, word, wordEndings) => {
   const supportNum = number % 10;
   if (number > 10 && number < 20) {
     return `${word}${wordEndings[2]}`;
-  } else if (supportNum > 1 && supportNum < 5) {
+  }
+  if (supportNum > 1 && supportNum < 5) {
     return `${word}${wordEndings[1]}`;
-  } else if (supportNum === 1) {
+  }
+  if (supportNum === 1) {
     return `${word}${wordEndings[0]}`;
   }
   return `${word}${wordEndings[2]}`;
