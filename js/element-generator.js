@@ -1,6 +1,8 @@
 import {createDescriptions} from './data.js';
 import {correctEndOfWord} from './util.js';
 
+const FEATURE_CLASS_NAME = 'popup__feature';
+
 const houseTypes = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -32,8 +34,6 @@ const fillContent = (element, selector, content, attribute='textContent') => {
     element.querySelector(selector).remove();
   }
 };
-
-const FEATURE_CLASS_NAME = 'popup__feature';
 
 const mapBlock = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card')
