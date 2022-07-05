@@ -1,4 +1,3 @@
-import {createDescriptions} from './data.js';
 import {correctEndOfWord} from './util.js';
 
 const FEATURE_CLASS_NAME = 'popup__feature';
@@ -39,8 +38,6 @@ const mapBlock = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
-
-const descriptions = createDescriptions();
 
 const createDescriptionCopy = (template, descriptionData) => {
   const {author, offer} = descriptionData;
@@ -91,16 +88,10 @@ const createDescriptionCopy = (template, descriptionData) => {
   return cardElement;
 };
 
-const createDescriptionListFragment = (descriptionTemplate, descriptionData) => {
-  const descriptionListFragment = document.createDocumentFragment();
-
-  descriptionData.forEach((description) => {
-    const cardElement = createDescriptionCopy(descriptionTemplate, description);
-    descriptionListFragment.append(cardElement);
-  });
-  return descriptionListFragment;
+const showCard = (cardDescription) => {
+  const newCard = createDescriptionCopy(cardTemplate, cardDescription);
+  mapBlock.append(newCard);
 };
 
-const newDescriptions = createDescriptionListFragment(cardTemplate, descriptions);
+export {showCard};
 
-mapBlock.append(newDescriptions.firstChild);
