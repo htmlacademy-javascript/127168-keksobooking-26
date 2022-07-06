@@ -9,20 +9,21 @@ const changeDisabledFormStatus = (elements, status) => {
   }
 };
 
+const toggleClasses = () => {
+  adFormBlock.classList.toggle('ad-form--disabled');
+  mapFiltersElement.classList.toggle('map__filters--disabled');
+};
+
 const setInactiveState = () => {
   changeDisabledFormStatus(adFormChildren, 'disabled');
   changeDisabledFormStatus(mapFiltersChildren, 'disabled');
-
-  adFormBlock.classList.add('ad-form--disabled');
-  mapFiltersElement.classList.add('map__filters--disabled');
+  toggleClasses();
 };
 
 const setActiveState = () => {
   changeDisabledFormStatus(adFormChildren, '');
   changeDisabledFormStatus(mapFiltersChildren, '');
-
-  adFormBlock.classList.remove('ad-form--disabled');
-  mapFiltersElement.classList.remove('map__filters--disabled');
+  toggleClasses();
 };
 
 export {
