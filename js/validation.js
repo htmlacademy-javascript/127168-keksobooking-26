@@ -17,11 +17,13 @@ const validateCapacityRoom = () => {
 };
 
 const pristine = new Pristine(adForm, {
-  classTo: 'ad-form__element', // Элемент, на который будут добавляться классы
-  errorTextParent: 'ad-form__element', // Элемент, куда будет выводиться текст с ошибкой
+  classTo: 'ad-form__element',
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'span',
+  errorTextClass: 'ad-form__element--error'
 });
 
-pristine.addValidator(roomNumberField, validateCapacityRoom, 'плохо, лови здесь длинный комментарий');
+pristine.addValidator(roomNumberField, validateCapacityRoom, 'плохо, лови здесь длинный комментарий, вот прям очень длинный комментарий');
 
 adForm.addEventListener ('submit', (evt) => {
   evt.preventDefault();
