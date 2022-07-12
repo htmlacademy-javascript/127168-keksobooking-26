@@ -4,6 +4,7 @@ import {
   setInactiveState,
   setActiveState
 } from'./state-function.js';
+import './validation.js';
 
 const descriptions = createDescriptions();
 showCard(descriptions[5]);
