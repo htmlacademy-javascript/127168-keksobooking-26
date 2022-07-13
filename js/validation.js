@@ -43,13 +43,13 @@ const pristine = new Pristine(adForm, {
 
 pristine.addValidator(roomNumberField, validateCapacityRoom, getCapacityRoomErrorMessage);
 
+capacityField.addEventListener('change', () => {
+  pristine.validate(roomNumberField);
+});
+
 adForm.addEventListener ('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
     adForm.submit();
   }
-});
-
-capacityField.addEventListener('change', () => {
-  pristine.validate(roomNumberField);
 });
