@@ -9,6 +9,8 @@ const roomNumberField = adForm.querySelector('#room_number');
 const capacityField = adForm.querySelector('#capacity');
 const typeHouseField = adForm.querySelector('#type');
 const priceField = adForm.querySelector('#price');
+const timeInField = adForm.querySelector('#timein');
+const timeOutField = adForm.querySelector('#timeout');
 
 const minimalCostByHouse = {
   bungalow: 0,
@@ -76,6 +78,14 @@ capacityField.addEventListener('change', () => {
 typeHouseField.addEventListener('change', () => {
   priceField.placeholder = minimalCostByHouse[typeHouseField.value];
   pristine.validate(priceField);
+});
+
+timeInField.addEventListener('change', () => {
+  timeOutField.value = timeInField.value;
+});
+
+timeOutField.addEventListener('change', () => {
+  timeInField.value = timeOutField.value;
 });
 
 // Submit listener
