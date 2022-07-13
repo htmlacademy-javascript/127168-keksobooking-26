@@ -2,11 +2,23 @@ import {correctEndOfWord} from './util.js';
 
 const COMMERCIAL_ROOM_NUM = 100;
 const COMMERTIAL_GUEST_NUM = 0;
+const MAX_PRICE = 100000;
 
 const adForm = document.querySelector('.ad-form');
 const roomNumberField = adForm.querySelector('#room_number');
 const capacityField = adForm.querySelector('#capacity');
+const typeHouseField = adForm.querySelector('#type');
+const priceField = adForm.querySelector('#price');
 
+const minimalCostByHouse = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000
+};
+
+// Validator functions
 const validateCapacityRoom = () => {
   if (+capacityField.value === COMMERTIAL_GUEST_NUM && +roomNumberField.value === COMMERCIAL_ROOM_NUM) {
     return true;
@@ -18,6 +30,9 @@ const validateCapacityRoom = () => {
   return +capacityField.value <= +roomNumberField.value;
 };
 
+const validatePrice = () => priceField.value >= minimalCostByHouse[typeHouseField.value] && priceField.value <= MAX_PRICE;
+
+// Error message functions
 const getCapacityRoomErrorMessage = () => {
   const numOfRooms = roomNumberField.value;
   const roomWord = correctEndOfWord(numOfRooms, 'комнат', ['ы', '', '']);
@@ -34,6 +49,15 @@ const getCapacityRoomErrorMessage = () => {
   return '100 комнат не для гостей';
 };
 
+const getPriceErrorMessage = () => {
+  const minPrice = minimalCostByHouse[typeHouseField.value];
+  if (+priceField.value < minPrice) {
+    return `Минимальная стоимость ${minPrice} рублей`;
+  }
+  return `Максимальная стоимость ${MAX_PRICE} рублей`;
+};
+
+// Validators
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -42,11 +66,19 @@ const pristine = new Pristine(adForm, {
 });
 
 pristine.addValidator(roomNumberField, validateCapacityRoom, getCapacityRoomErrorMessage);
+pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
 
+// Change listeners
 capacityField.addEventListener('change', () => {
   pristine.validate(roomNumberField);
 });
 
+typeHouseField.addEventListener('change', () => {
+  priceField.placeholder = minimalCostByHouse[typeHouseField.value];
+  pristine.validate(priceField);
+});
+
+// Submit listener
 adForm.addEventListener ('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
