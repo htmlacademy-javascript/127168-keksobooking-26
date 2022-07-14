@@ -2,15 +2,19 @@ import {
   setInactiveState,
   setActiveState
 } from'./state-function.js';
+import {createDescriptions} from './data.js';
+import {showCard} from './element-generator.js';
 
 const START_COORDINATES = {
-  lat: 35.70209,
-  lng: 139.54976,
+  lat: 35.68485,
+  lng: 139.75377,
 };
+const START_SCALE = 13;
 
 const adForm = document.querySelector('.ad-form');
 const resetButton = adForm.querySelector('.ad-form__reset');
 const adressField = adForm.querySelector('#address');
+const places = createDescriptions();
 
 setInactiveState();
 
@@ -18,7 +22,7 @@ const map = L.map('map-canvas')
   .on('load', () => {
     setActiveState();
   })
-  .setView(START_COORDINATES, 10);
+  .setView(START_COORDINATES, START_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -41,6 +45,25 @@ const mainPinMarker = L.marker(
   },
 );
 
+const minorPinMarker = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+places.forEach(({location: {lat, lng}}) => {
+  const marker = L.marker({
+    lat,
+    lng,
+  },
+  {
+    icon: minorPinMarker,
+  }
+  );
+
+  marker.addTo(map);
+});
+
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
@@ -53,5 +76,5 @@ mainPinMarker.on('moveend', (evt) => {
 
 resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng(START_COORDINATES);
-  map.setView(START_COORDINATES, 10);
+  map.setView(START_COORDINATES, START_SCALE);
 });
