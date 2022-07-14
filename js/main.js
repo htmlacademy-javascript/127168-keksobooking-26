@@ -7,7 +7,7 @@ import {
 import './validation.js';
 
 const descriptions = createDescriptions();
-showCard(descriptions[5]);
+// showCard(descriptions[5]);
 
 setInactiveState();
 setActiveState();
