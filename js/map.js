@@ -37,6 +37,12 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
+const minorPinMarker = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 const mainPinMarker = L.marker(
   START_COORDINATES,
   {
@@ -45,13 +51,10 @@ const mainPinMarker = L.marker(
   },
 );
 
-const minorPinMarker = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+mainPinMarker.addTo(map);
 
-places.forEach(({location: {lat, lng}}) => {
+places.forEach((place) => {
+  const {location: {lat, lng}} = place;
   const marker = L.marker({
     lat,
     lng,
@@ -61,10 +64,10 @@ places.forEach(({location: {lat, lng}}) => {
   }
   );
 
-  marker.addTo(map);
+  marker
+    .addTo(map)
+    .bindPopup(showCard(place));
 });
-
-mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
   const {lat, lng} = evt.target.getLatLng();
