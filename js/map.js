@@ -53,7 +53,9 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-places.forEach((place) => {
+const markerGroup = L.layerGroup().addTo(map);
+
+const createMinorMarker = (place) => {
   const {location: {lat, lng}} = place;
   const marker = L.marker({
     lat,
@@ -65,8 +67,12 @@ places.forEach((place) => {
   );
 
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(showCard(place));
+};
+
+places.forEach((place) => {
+  createMinorMarker(place);
 });
 
 mainPinMarker.on('moveend', (evt) => {
