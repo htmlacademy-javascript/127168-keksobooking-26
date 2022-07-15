@@ -34,7 +34,6 @@ const fillContent = (element, selector, content, attribute='textContent') => {
   }
 };
 
-const mapBlock = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
@@ -88,10 +87,6 @@ const createDescriptionCopy = (template, descriptionData) => {
   return cardElement;
 };
 
-const showCard = (cardDescription) => {
-  const newCard = createDescriptionCopy(cardTemplate, cardDescription);
-  mapBlock.append(newCard);
-};
+const showCard = (cardDescription) => createDescriptionCopy(cardTemplate, cardDescription);
 
 export {showCard};
-
