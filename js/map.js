@@ -2,8 +2,8 @@ import {
   setInactiveState,
   setActiveState
 } from'./state-function.js';
-import {createDescriptions} from './data.js';
 import {showCard} from './element-generator.js';
+
 
 const START_COORDINATES = {
   lat: 35.68485,
@@ -13,23 +13,7 @@ const START_SCALE = 13;
 
 const adForm = document.querySelector('.ad-form');
 const resetButton = adForm.querySelector('.ad-form__reset');
-const adressField = adForm.querySelector('#address');
-const places = createDescriptions();
-
-setInactiveState();
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-    setActiveState();
-  })
-  .setView(START_COORDINATES, START_SCALE);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const addressField = adForm.querySelector('#address');
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -37,7 +21,7 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const minorPinMarker = L.icon({
+const minorPinIcon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
@@ -51,39 +35,46 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
-
-const markerGroup = L.layerGroup().addTo(map);
-
-const createMinorMarker = (place) => {
+const createMinorMarker = (place, layer) => {
   const {location: {lat, lng}} = place;
-  const marker = L.marker({
-    lat,
-    lng,
-  },
-  {
-    icon: minorPinMarker,
-  }
-  );
+  const marker = L.marker({lat, lng}, {icon: minorPinIcon});
 
   marker
-    .addTo(markerGroup)
+    .addTo(layer)
     .bindPopup(showCard(place));
 };
 
-places.forEach((place) => {
-  createMinorMarker(place);
-});
+const setPins = (places, layer) => places.forEach((place) => createMinorMarker(place, layer));
 
-mainPinMarker.on('moveend', (evt) => {
-  const {lat, lng} = evt.target.getLatLng();
-  const correctLat = (Math.round(lat*100000)/100000).toFixed(5);
-  const correctLng = (Math.round(lng*100000)/100000).toFixed(5);
+const initEventListeners = (map) => {
+  mainPinMarker.on('moveend', (evt) => {
+    const {lat, lng} = evt.target.getLatLng();
+    addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  });
 
-  adressField.value = `${correctLat}, ${correctLng}`;
-});
+  resetButton.addEventListener('click', () => {
+    mainPinMarker.setLatLng(START_COORDINATES);
+    map.setView(START_COORDINATES, START_SCALE);
+  });
+};
 
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng(START_COORDINATES);
-  map.setView(START_COORDINATES, START_SCALE);
-});
+const initMap = (places) => {
+  setInactiveState();
+
+  const map = L.map('map-canvas')
+    .on('load', () => {
+      setActiveState();
+    })
+    .setView(START_COORDINATES, START_SCALE);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  const markerGroup = L.layerGroup().addTo(map);
+
+  mainPinMarker.addTo(map);
+  setPins(places, markerGroup);
+
+  initEventListeners(map);
+};
+
+export {initMap};
