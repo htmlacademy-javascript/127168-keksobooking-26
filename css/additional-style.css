@@ -1,0 +1,12 @@
+.ad-form__element--error {
+  display: block;
+  position: absolute;
+  width: 200%;
+  margin-top: 0.5em;
+  font-size: 0.85em;
+  color: #c00;
+}
+
+.ad-form__slider + .ad-form__element--error {
+  margin-top: 0.3em;
+}

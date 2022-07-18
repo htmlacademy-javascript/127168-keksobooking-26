@@ -3,6 +3,13 @@ import {correctEndOfWord} from './util.js';
 const COMMERCIAL_ROOM_NUM = 100;
 const COMMERTIAL_GUEST_NUM = 0;
 const MAX_PRICE = 100000;
+const MINIMAL_COST_BY_HOUSE = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000
+};
 
 const adForm = document.querySelector('.ad-form');
 const roomNumberField = adForm.querySelector('#room_number');
@@ -12,13 +19,6 @@ const priceField = adForm.querySelector('#price');
 const timeInField = adForm.querySelector('#timein');
 const timeOutField = adForm.querySelector('#timeout');
 
-const minimalCostByHouse = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000
-};
 
 // Validator functions
 const validateCapacityRoom = () => {
@@ -32,7 +32,7 @@ const validateCapacityRoom = () => {
   return +capacityField.value <= +roomNumberField.value;
 };
 
-const validatePrice = () => priceField.value >= minimalCostByHouse[typeHouseField.value] && priceField.value <= MAX_PRICE;
+const validatePrice = () => priceField.value >= MINIMAL_COST_BY_HOUSE[typeHouseField.value] && priceField.value <= MAX_PRICE;
 
 // Error message functions
 const getCapacityRoomErrorMessage = () => {
@@ -52,7 +52,7 @@ const getCapacityRoomErrorMessage = () => {
 };
 
 const getPriceErrorMessage = () => {
-  const minPrice = minimalCostByHouse[typeHouseField.value];
+  const minPrice = MINIMAL_COST_BY_HOUSE[typeHouseField.value];
   if (+priceField.value < minPrice) {
     return `Минимальная стоимость ${minPrice} рублей`;
   }
@@ -76,7 +76,7 @@ capacityField.addEventListener('change', () => {
 });
 
 typeHouseField.addEventListener('change', () => {
-  priceField.placeholder = minimalCostByHouse[typeHouseField.value];
+  priceField.placeholder = MINIMAL_COST_BY_HOUSE[typeHouseField.value];
   pristine.validate(priceField);
 });
 
@@ -95,3 +95,5 @@ adForm.addEventListener ('submit', (evt) => {
     adForm.submit();
   }
 });
+
+export {pristine};
