@@ -1,7 +1,3 @@
-import {
-  setInactiveState,
-  setActiveState
-} from'./state-function.js';
 import {showCard} from './element-generator.js';
 
 
@@ -59,12 +55,7 @@ const initEventListeners = (map) => {
 };
 
 const initMap = (places) => {
-  setInactiveState();
-
   const map = L.map('map-canvas')
-    .on('load', () => {
-      setActiveState();
-    })
     .setView(START_COORDINATES, START_SCALE);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
