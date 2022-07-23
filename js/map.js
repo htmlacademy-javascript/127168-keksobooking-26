@@ -8,7 +8,6 @@ const START_COORDINATES = {
 const START_SCALE = 13;
 
 const adForm = document.querySelector('.ad-form');
-const resetButton = adForm.querySelector('.ad-form__reset');
 const addressField = adForm.querySelector('#address');
 
 const mainPinIcon = L.icon({
@@ -60,7 +59,7 @@ const resetMap = (map, group) => () => {
 const initEventListeners = (map, group) => {
   mainPinMarker.on('moveend', changeAddressField);
 
-  resetButton.addEventListener('click', resetMap(map, group));
+  adForm.addEventListener('reset', resetMap(map, group));
 };
 
 const initMap = (places) => {
