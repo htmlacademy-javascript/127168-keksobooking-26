@@ -75,8 +75,6 @@ const initMap = (places) => {
   setPins(places, markerGroup);
 
   initEventListeners(map, markerGroup);
-
-  markerGroup.closePopup();
 };
 
 export {initMap};
