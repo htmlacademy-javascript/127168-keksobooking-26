@@ -1,5 +1,4 @@
 import './validation.js';
-import './map.js';
 import './slider.js';
 import {getData} from './api.js';
 import {initMap} from './map.js';
