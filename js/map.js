@@ -47,15 +47,20 @@ const changeAddressField = (evt) => {
   addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
-const resetMap = (map) => () => {
+const resetMap = (map, group) => () => {
   mainPinMarker.setLatLng(START_COORDINATES);
   map.setView(START_COORDINATES, START_SCALE);
+  group.eachLayer((layer) => {
+    if (layer.isPopupOpen()) {
+      layer.closePopup();
+    }
+  });
 };
 
-const initEventListeners = (map) => {
+const initEventListeners = (map, group) => {
   mainPinMarker.on('moveend', changeAddressField);
 
-  resetButton.addEventListener('click', resetMap(map));
+  resetButton.addEventListener('click', resetMap(map, group));
 };
 
 const initMap = (places) => {
@@ -69,7 +74,9 @@ const initMap = (places) => {
   mainPinMarker.addTo(map);
   setPins(places, markerGroup);
 
-  initEventListeners(map);
+  initEventListeners(map, markerGroup);
+
+  markerGroup.closePopup();
 };
 
 export {initMap};
