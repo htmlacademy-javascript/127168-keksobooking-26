@@ -1,22 +1,17 @@
-import {
-  setInactiveState,
-  setActiveState
-} from'./state-function.js';
+const getData = async (action) => {
+  let descriptions;
 
-const getData = async (onSuccess) => {
-  setInactiveState();
-  let response;
   try {
-    response = await fetch('https://26.javascript.pages.academy/keksobooking/dat');
+    const response = await fetch('https://26.javascript.pages.academy/keksobooking/data');
     if (!response.ok) {
-      throw new Error(`${response.status} — ${response.statusText}`);
+      throw new Error('Не удалось загрузить похожие объявления. Попробуйте позже.');
     }
+    descriptions = await response.json();
+    await action(descriptions);
   } catch (err) {
-    return [];
+    descriptions = [];
+    action(descriptions);
   }
-  const descriptions = await response.json();
-  await onSuccess(descriptions.slice(0, 10));
-  setActiveState();
 };
 
 export {getData};
