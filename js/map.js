@@ -42,16 +42,20 @@ const createMinorMarker = (place, layer) => {
 
 const setPins = (places, layer) => places.forEach((place) => createMinorMarker(place, layer));
 
-const initEventListeners = (map) => {
-  mainPinMarker.on('moveend', (evt) => {
-    const {lat, lng} = evt.target.getLatLng();
-    addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  });
+const changeAddressField = (evt) => {
+  const {lat, lng} = evt.target.getLatLng();
+  addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+};
 
-  resetButton.addEventListener('click', () => {
-    mainPinMarker.setLatLng(START_COORDINATES);
-    map.setView(START_COORDINATES, START_SCALE);
-  });
+const resetMap = (map) => () => {
+  mainPinMarker.setLatLng(START_COORDINATES);
+  map.setView(START_COORDINATES, START_SCALE);
+};
+
+const initEventListeners = (map) => {
+  mainPinMarker.on('moveend', changeAddressField);
+
+  resetButton.addEventListener('click', resetMap(map));
 };
 
 const initMap = (places) => {
