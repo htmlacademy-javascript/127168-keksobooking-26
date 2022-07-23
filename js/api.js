@@ -19,8 +19,21 @@ const getData = async (action) => {
   }
 };
 
-const postData = async () => {
-
+const postData = async (onSuccess, onFail, body) => {
+  try {
+    const response = await fetch(
+      'https://26.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: body,
+      });
+    if (!response.ok) {
+      throw new Error('Произошла ошибка при отправке. Повторите позже.');
+    }
+    onSuccess();
+  } catch (err) {
+    onFail();
+  }
 };
 
 export {getData, postData};
