@@ -88,12 +88,5 @@ timeOutField.addEventListener('change', () => {
   timeInField.value = timeOutField.value;
 });
 
-// Submit listener
-adForm.addEventListener ('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    adForm.submit();
-  }
-});
 
 export {pristine};

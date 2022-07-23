@@ -19,4 +19,8 @@ const getData = async (action) => {
   }
 };
 
-export {getData};
+const postData = async () => {
+
+};
+
+export {getData, postData};
