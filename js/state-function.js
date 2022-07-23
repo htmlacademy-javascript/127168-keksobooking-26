@@ -26,7 +26,10 @@ const setActiveState = () => {
   toggleClasses();
 };
 
-export {
-  setInactiveState,
-  setActiveState
+const activateForm = async (getFunction, initFunction) => {
+  setInactiveState();
+  await getFunction(initFunction);
+  setActiveState();
 };
+
+export {activateForm};
