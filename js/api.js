@@ -1,3 +1,7 @@
+import {showAlert} from './util.js';
+
+const mapElement = document.querySelector('.map__canvas');
+
 const getData = async (action) => {
   let descriptions;
 
@@ -11,6 +15,7 @@ const getData = async (action) => {
   } catch (err) {
     descriptions = [];
     action(descriptions);
+    showAlert(err.message, mapElement);
   }
 };
 
