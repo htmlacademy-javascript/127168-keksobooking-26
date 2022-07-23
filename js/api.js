@@ -11,7 +11,7 @@ const getData = async (action) => {
       throw new Error('Не удалось загрузить похожие объявления. Попробуйте позже.');
     }
     descriptions = await response.json();
-    await action(descriptions);
+    action(descriptions);
   } catch (err) {
     descriptions = [];
     action(descriptions);
