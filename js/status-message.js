@@ -1,5 +1,7 @@
 const ALERT_SHOW_TIME = 30000;
 
+// Сообщение при GET
+
 const showAlertMessage = (message, parentElement) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1000';
@@ -20,6 +22,8 @@ const showAlertMessage = (message, parentElement) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
+
+// Сообщения при POST
 
 function closeMessageElement (element) {
   return () => {
@@ -55,7 +59,10 @@ const showSuccessMessage = () => {
 const showErrorMessage = () => {
   const errorMessageTemplate = document.querySelector('#error')
     .content
-    .querySelector('.error');
+    .querySelector('.error')
+    .cloneNode(true);
+
+  initCloseMessageEvents(errorMessageTemplate);
 
   document.body.append(errorMessageTemplate);
 };
