@@ -32,7 +32,7 @@ const postData = async (onSuccess, onFail, body) => {
     }
     onSuccess();
   } catch (err) {
-    onFail();
+    onFail(err);
   }
 };
 
