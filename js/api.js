@@ -1,9 +1,7 @@
-import {showAlertMessage} from './status-message.js';
-
-const ADDRESS_GET = 'https://26.javascript.pages.academy/keksobooking/data';
+const ADDRESS_GET = 'https://26.javascript.pages.academy/keksobooking/dat';
 const ADDRESS_POST = 'https://26.javascript.pages.academy/keksobooking';
 
-const getData = async (action) => {
+const getData = async (onSuccess, onFail) => {
   let descriptions;
 
   try {
@@ -12,11 +10,12 @@ const getData = async (action) => {
       throw new Error('Не удалось загрузить похожие объявления. Попробуйте позже.');
     }
     descriptions = await response.json();
-    action(descriptions);
+    onSuccess(descriptions);
   } catch (err) {
     descriptions = [];
-    action(descriptions);
-    showAlertMessage(err.message);
+    // onSuccess нужен для того, чтобы запустить карту без загруженных объявлений
+    onSuccess(descriptions);
+    onFail(err.message);
   }
 };
 
