@@ -1,4 +1,4 @@
-import {showAlert} from './util.js';
+import {showAlert} from './status-message.js';
 
 const mapElement = document.querySelector('.map__canvas');
 
