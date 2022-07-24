@@ -1,4 +1,4 @@
-const ADDRESS_GET = 'https://26.javascript.pages.academy/keksobooking/dat';
+const ADDRESS_GET = 'https://26.javascript.pages.academy/keksobooking/data';
 const ADDRESS_POST = 'https://26.javascript.pages.academy/keksobooking';
 
 const getData = async (onSuccess, onFail) => {

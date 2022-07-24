@@ -2,11 +2,21 @@ import './validation.js';
 import './slider.js';
 import {getData} from './api.js';
 import {initMap} from './map.js';
-import {activateForm} from'./state-function.js';
+import {showAlertMessage} from './status-message.js';
+import {setInactiveState, setActiveState} from'./state-function.js';
 import './form.js';
 
 const ANOTHER_ADS = 10;
 
-activateForm(getData, (descriptions) => {
+setInactiveState();
+
+const makeSuccessfulAction = (descriptions) => {
   initMap(descriptions.slice(0, ANOTHER_ADS));
-});
+  setActiveState();
+};
+
+const makeErrorAction = (errorMessage) => {
+  showAlertMessage(errorMessage);
+};
+
+getData(makeSuccessfulAction, makeErrorAction);
