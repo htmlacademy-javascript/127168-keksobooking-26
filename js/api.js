@@ -1,12 +1,15 @@
 import {showAlertMessage} from './status-message.js';
 
+const ADDRESS_GET = 'https://26.javascript.pages.academy/keksobooking/data';
+const ADDRESS_POST = 'https://26.javascript.pages.academy/keksobooking';
+
 const mapElement = document.querySelector('.map__canvas');
 
 const getData = async (action) => {
   let descriptions;
 
   try {
-    const response = await fetch('https://26.javascript.pages.academy/keksobooking/data');
+    const response = await fetch(ADDRESS_GET);
     if (!response.ok) {
       throw new Error('Не удалось загрузить похожие объявления. Попробуйте позже.');
     }
@@ -22,7 +25,7 @@ const getData = async (action) => {
 const postData = async (onSuccess, onFail, body) => {
   try {
     const response = await fetch(
-      'https://26.javascript.pages.academy/keksobooking',
+      ADDRESS_POST,
       {
         method: 'POST',
         body: body,
