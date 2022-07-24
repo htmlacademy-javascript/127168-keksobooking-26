@@ -1,6 +1,6 @@
 const ALERT_SHOW_TIME = 30000;
 
-const showAlert = (message, parentElement) => {
+const showAlertMessage = (message, parentElement) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1000';
   alertContainer.style.position = 'absolute';
@@ -21,4 +21,45 @@ const showAlert = (message, parentElement) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlert};
+function closeMessageElement (element) {
+  return () => {
+    element.remove();
+    document.removeEventListener('keydown', onPopupEscKeydown(element));
+  };
+}
+
+function onPopupEscKeydown (element) {
+  return (evt) => {
+    if (evt.key === 'Escape') {
+      (closeMessageElement(element))();
+    }
+  };
+}
+
+const initCloseMessageEvents = (element) => {
+  element.addEventListener('click', () => element.remove());
+  document.addEventListener('keydown', onPopupEscKeydown(element));
+};
+
+const showSuccessMessage = () => {
+  const successMessageTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success')
+    .cloneNode(true);
+
+  initCloseMessageEvents(successMessageTemplate);
+
+  document.body.append(successMessageTemplate);
+};
+
+const showErrorMessage = () => {
+  const errorMessageTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+
+  document.body.append(errorMessageTemplate);
+};
+
+export {showAlertMessage,
+  showSuccessMessage,
+  showErrorMessage};
