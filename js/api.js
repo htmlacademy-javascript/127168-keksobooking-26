@@ -1,4 +1,4 @@
-import {showAlert} from './status-message.js';
+import {showAlertMessage} from './status-message.js';
 
 const mapElement = document.querySelector('.map__canvas');
 
@@ -15,7 +15,7 @@ const getData = async (action) => {
   } catch (err) {
     descriptions = [];
     action(descriptions);
-    showAlert(err.message, mapElement);
+    showAlertMessage(err.message, mapElement);
   }
 };
 
