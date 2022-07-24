@@ -9,20 +9,17 @@ const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const priceField = adForm.querySelector('#price');
 
+const makeSuccessfulAction = () => {
+  adForm.reset();
+  filterForm.reset();
+  showSuccessMessage();
+};
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
     const formData = new FormData(adForm);
-    postData(
-      () => {
-        adForm.reset();
-        filterForm.reset();
-        showSuccessMessage();
-      },
-      () => {
-        showErrorMessage();
-      },
-      formData);
+    postData(makeSuccessfulAction, showErrorMessage, formData);
   }
 });
 
