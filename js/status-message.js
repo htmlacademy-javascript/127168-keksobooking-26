@@ -1,8 +1,10 @@
 const ALERT_SHOW_TIME = 30000;
 
+const mapElement = document.querySelector('.map__canvas');
+
 // Сообщение при GET
 
-const showAlertMessage = (message, parentElement) => {
+const showAlertMessage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1000';
   alertContainer.style.position = 'absolute';
@@ -16,7 +18,7 @@ const showAlertMessage = (message, parentElement) => {
 
   alertContainer.textContent = message;
 
-  parentElement.append(alertContainer);
+  mapElement.append(alertContainer);
 
   setTimeout(() => {
     alertContainer.remove();
