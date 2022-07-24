@@ -27,24 +27,18 @@ const showAlertMessage = (message) => {
 
 // Сообщения при POST
 
-function closeMessageElement (element) {
-  return () => {
-    element.remove();
-    document.removeEventListener('keydown', onPopupEscKeydown(element));
-  };
-}
+const isEscape = (evt) => evt.key === 'Escape';
 
-function onPopupEscKeydown (element) {
-  return (evt) => {
-    if (evt.key === 'Escape') {
-      (closeMessageElement(element))();
-    }
-  };
+function onPopupEscKeydown() {
+  if (isEscape) {
+    document.querySelectorAll('.success, .error').forEach((element) => element.remove());
+    document.removeEventListener('keydown', onPopupEscKeydown);
+  }
 }
 
 const initCloseMessageEvents = (element) => {
   element.addEventListener('click', () => element.remove());
-  document.addEventListener('keydown', onPopupEscKeydown(element));
+  document.addEventListener('keydown', onPopupEscKeydown);
 };
 
 const showSuccessMessage = () => {
