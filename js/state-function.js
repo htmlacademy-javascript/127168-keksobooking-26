@@ -26,7 +26,4 @@ const setActiveState = () => {
   toggleClasses();
 };
 
-export {
-  setInactiveState,
-  setActiveState
-};
+export {setInactiveState, setActiveState};

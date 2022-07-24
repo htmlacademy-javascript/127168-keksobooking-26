@@ -1,7 +1,3 @@
-import {
-  setInactiveState,
-  setActiveState
-} from'./state-function.js';
 import {showCard} from './element-generator.js';
 
 
@@ -12,7 +8,6 @@ const START_COORDINATES = {
 const START_SCALE = 13;
 
 const adForm = document.querySelector('.ad-form');
-const resetButton = adForm.querySelector('.ad-form__reset');
 const addressField = adForm.querySelector('#address');
 
 const mainPinIcon = L.icon({
@@ -46,25 +41,29 @@ const createMinorMarker = (place, layer) => {
 
 const setPins = (places, layer) => places.forEach((place) => createMinorMarker(place, layer));
 
-const initEventListeners = (map) => {
-  mainPinMarker.on('moveend', (evt) => {
-    const {lat, lng} = evt.target.getLatLng();
-    addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  });
+const changeAddressField = (evt) => {
+  const {lat, lng} = evt.target.getLatLng();
+  addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+};
 
-  resetButton.addEventListener('click', () => {
-    mainPinMarker.setLatLng(START_COORDINATES);
-    map.setView(START_COORDINATES, START_SCALE);
+const resetMap = (map, group) => () => {
+  mainPinMarker.setLatLng(START_COORDINATES);
+  map.setView(START_COORDINATES, START_SCALE);
+  group.eachLayer((layer) => {
+    if (layer.isPopupOpen()) {
+      layer.closePopup();
+    }
   });
 };
 
-const initMap = (places) => {
-  setInactiveState();
+const initEventListeners = (map, group) => {
+  mainPinMarker.on('moveend', changeAddressField);
 
+  adForm.addEventListener('reset', resetMap(map, group));
+};
+
+const initMap = (places) => {
   const map = L.map('map-canvas')
-    .on('load', () => {
-      setActiveState();
-    })
     .setView(START_COORDINATES, START_SCALE);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -74,7 +73,7 @@ const initMap = (places) => {
   mainPinMarker.addTo(map);
   setPins(places, markerGroup);
 
-  initEventListeners(map);
+  initEventListeners(map, markerGroup);
 };
 
 export {initMap};

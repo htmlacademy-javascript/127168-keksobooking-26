@@ -62,6 +62,7 @@ const correctEndOfWord = (number, word, wordEndings) => {
   return `${word}${wordEndings[2]}`;
 };
 
+
 export {getRandomIntFromInterval,
   getRandomFloatFromInterval,
   getRandomArrayElement,
