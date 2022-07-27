@@ -5,6 +5,7 @@ import {initMap} from './map.js';
 import {showAlertMessage} from './status-message.js';
 import {setInactiveState, setActiveState} from'./state-function.js';
 import './form.js';
+import './photos.js';
 
 
 setInactiveState();
