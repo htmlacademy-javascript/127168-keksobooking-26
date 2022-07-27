@@ -1,5 +1,5 @@
 import {showCard} from './element-generator.js';
-// import {initFilterEventListener} from './filter.js';
+import {initFilterEventListener} from './filter.js';
 
 
 const START_COORDINATES = {
@@ -7,7 +7,7 @@ const START_COORDINATES = {
   lng: 139.75377,
 };
 const START_SCALE = 13;
-// const ANOTHER_ADS = 10;
+const ANOTHER_ADS = 10;
 
 const adForm = document.querySelector('.ad-form');
 const addressField = adForm.querySelector('#address');
@@ -58,49 +58,30 @@ const resetMap = (map, group) => () => {
   });
 };
 
-const initFilterEventListener = (places) => {
-  const filterForm = document.querySelector('.map__filters');
-
-  filterForm.addEventListener('change', (evt) => {
-    if (evt.target.id === 'housing-type') {
-      places.slice(0, 10);
-      console.log(places);
-    }
-    if (evt.target.id === 'housing-price') {
-      console.log('Стоимость аренды');
-    }
-    if (evt.target.id === 'housing-rooms') {
-      console.log('Количество комнат');
-    }
-    if (evt.target.id === 'housing-guests') {
-      console.log('Количество гостей');
-    }
-    if (evt.target.parentElement.id === 'housing-features') {
-      console.log('Фишечки');
-    }
-  });
+const upgradeLayer = (layer, newGroup) => {
+  layer.clearLayers();
+  setPins(newGroup.slice(0, ANOTHER_ADS), layer);
 };
 
 const initMapEventListeners = (map, group) => {
   mainPinMarker.on('moveend', changeAddressField);
-
   adForm.addEventListener('reset', resetMap(map, group));
 };
 
 const initMap = (places) => {
-  const copiedPlaces = places;
   const map = L.map('map-canvas')
     .setView(START_COORDINATES, START_SCALE);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  const markerGroup = L.layerGroup().addTo(map);
-
   mainPinMarker.addTo(map);
-  initFilterEventListener(copiedPlaces);
-  setPins(copiedPlaces, markerGroup);
 
+  const markerGroup = L.layerGroup().addTo(map);
+  setPins(places, markerGroup);
+
+  initFilterEventListener(places, markerGroup);
   initMapEventListeners(map, markerGroup);
 };
 
-export {initMap};
+export {initMap,
+  upgradeLayer};
