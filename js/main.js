@@ -15,8 +15,4 @@ const makeSuccessfulAction = (descriptions) => {
   setActiveState();
 };
 
-const makeErrorAction = (errorMessage) => {
-  showAlertMessage(errorMessage);
-};
-
-getData(makeSuccessfulAction, makeErrorAction);
+getData(makeSuccessfulAction, showAlertMessage);
