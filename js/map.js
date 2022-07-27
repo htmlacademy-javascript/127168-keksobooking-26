@@ -48,7 +48,12 @@ const changeAddressField = (evt) => {
   addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
-const resetMap = (map, group) => () => {
+const upgradeLayer = (group, places) => {
+  group.clearLayers();
+  setPins(places.slice(0, ANOTHER_ADS), group);
+};
+
+const resetMap = (map, group, places) => () => {
   mainPinMarker.setLatLng(START_COORDINATES);
   map.setView(START_COORDINATES, START_SCALE);
   group.eachLayer((layer) => {
@@ -56,16 +61,12 @@ const resetMap = (map, group) => () => {
       layer.closePopup();
     }
   });
+  upgradeLayer(group, places);
 };
 
-const upgradeLayer = (layer, newGroup) => {
-  layer.clearLayers();
-  setPins(newGroup.slice(0, ANOTHER_ADS), layer);
-};
-
-const initMapEventListeners = (map, group) => {
+const initMapEventListeners = (map, group, places) => {
   mainPinMarker.on('moveend', changeAddressField);
-  adForm.addEventListener('reset', resetMap(map, group));
+  adForm.addEventListener('reset', resetMap(map, group, places));
 };
 
 const initMap = (places) => {
@@ -80,7 +81,7 @@ const initMap = (places) => {
   setPins(places.slice(0, ANOTHER_ADS), markerGroup);
 
   initMapFilters(places, markerGroup);
-  initMapEventListeners(map, markerGroup);
+  initMapEventListeners(map, markerGroup, places);
 };
 
 export {initMap,
