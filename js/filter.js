@@ -1,21 +1,28 @@
-const initFilterEventListener = () => {
+import {upgradeLayer} from './map.js';
+
+const initFilterEventListener = (places, group) => {
+  let copiedPlaces = places;
   const filterForm = document.querySelector('.map__filters');
 
   filterForm.addEventListener('change', (evt) => {
     if (evt.target.id === 'housing-type') {
-      console.log('Тип дома');
+      copiedPlaces = copiedPlaces.filter((place) => {
+        console.log(place);
+        return place.offer.type === 'palace';
+      });
+      upgradeLayer(group, copiedPlaces);
     }
     if (evt.target.id === 'housing-price') {
-      console.log('Стоимость аренды');
+      // new
     }
     if (evt.target.id === 'housing-rooms') {
-      console.log('Количество комнат');
+      // new
     }
     if (evt.target.id === 'housing-guests') {
-      console.log('Количество гостей');
+      // new
     }
     if (evt.target.parentElement.id === 'housing-features') {
-      console.log('Фишечки');
+      // new
     }
   });
 };
