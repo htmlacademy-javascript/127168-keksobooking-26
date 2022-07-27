@@ -77,7 +77,7 @@ const initMap = (places) => {
   mainPinMarker.addTo(map);
 
   const markerGroup = L.layerGroup().addTo(map);
-  setPins(places, markerGroup);
+  setPins(places.slice(0, ANOTHER_ADS), markerGroup);
 
   initFilterEventListener(places, markerGroup);
   initMapEventListeners(map, markerGroup);
