@@ -1,5 +1,5 @@
 import {showCard} from './element-generator.js';
-import {initFilterEventListener} from './filter.js';
+import {initMapFilters} from './filter.js';
 
 
 const START_COORDINATES = {
@@ -79,7 +79,7 @@ const initMap = (places) => {
   const markerGroup = L.layerGroup().addTo(map);
   setPins(places.slice(0, ANOTHER_ADS), markerGroup);
 
-  initFilterEventListener(places, markerGroup);
+  initMapFilters(places, markerGroup);
   initMapEventListeners(map, markerGroup);
 };
 
