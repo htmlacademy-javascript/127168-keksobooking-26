@@ -1,16 +1,21 @@
 import {upgradeLayer} from './map.js';
 
+const getPlacesByType = (places, evt) => places.filter(({offer: {type}}) => {
+  if (evt.target.value === 'any') {
+    return true;
+  }
+  return type === evt.target.value;
+});
+
 const initFilterEventListener = (places, group) => {
-  let copiedPlaces = places;
   const filterForm = document.querySelector('.map__filters');
+
+  let changeablePlaces = places.slice();
 
   filterForm.addEventListener('change', (evt) => {
     if (evt.target.id === 'housing-type') {
-      copiedPlaces = copiedPlaces.filter((place) => {
-        console.log(place);
-        return place.offer.type === 'palace';
-      });
-      upgradeLayer(group, copiedPlaces);
+      changeablePlaces = getPlacesByType(places, evt);
+      upgradeLayer(group, changeablePlaces);
     }
     if (evt.target.id === 'housing-price') {
       // new
