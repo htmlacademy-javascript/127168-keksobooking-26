@@ -6,17 +6,12 @@ import {showAlertMessage} from './status-message.js';
 import {setInactiveState, setActiveState} from'./state-function.js';
 import './form.js';
 
-const ANOTHER_ADS = 10;
 
 setInactiveState();
 
 const makeSuccessfulAction = (descriptions) => {
-  initMap(descriptions.slice(0, ANOTHER_ADS));
+  initMap(descriptions);
   setActiveState();
 };
 
-const makeErrorAction = (errorMessage) => {
-  showAlertMessage(errorMessage);
-};
-
-getData(makeSuccessfulAction, makeErrorAction);
+getData(makeSuccessfulAction, showAlertMessage);

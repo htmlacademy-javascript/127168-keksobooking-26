@@ -1,4 +1,5 @@
 import {showCard} from './element-generator.js';
+import {initMapFilters} from './filter.js';
 
 
 const START_COORDINATES = {
@@ -6,6 +7,7 @@ const START_COORDINATES = {
   lng: 139.75377,
 };
 const START_SCALE = 13;
+const ANOTHER_ADS = 10;
 
 const adForm = document.querySelector('.ad-form');
 const addressField = adForm.querySelector('#address');
@@ -46,7 +48,12 @@ const changeAddressField = (evt) => {
   addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
-const resetMap = (map, group) => () => {
+const upgradeLayer = (group, places) => {
+  group.clearLayers();
+  setPins(places.slice(0, ANOTHER_ADS), group);
+};
+
+const resetMap = (map, group, places) => () => {
   mainPinMarker.setLatLng(START_COORDINATES);
   map.setView(START_COORDINATES, START_SCALE);
   group.eachLayer((layer) => {
@@ -54,12 +61,12 @@ const resetMap = (map, group) => () => {
       layer.closePopup();
     }
   });
+  upgradeLayer(group, places);
 };
 
-const initEventListeners = (map, group) => {
+const initMapEventListeners = (map, group, places) => {
   mainPinMarker.on('moveend', changeAddressField);
-
-  adForm.addEventListener('reset', resetMap(map, group));
+  adForm.addEventListener('reset', resetMap(map, group, places));
 };
 
 const initMap = (places) => {
@@ -68,12 +75,14 @@ const initMap = (places) => {
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  const markerGroup = L.layerGroup().addTo(map);
-
   mainPinMarker.addTo(map);
-  setPins(places, markerGroup);
 
-  initEventListeners(map, markerGroup);
+  const markerGroup = L.layerGroup().addTo(map);
+  setPins(places.slice(0, ANOTHER_ADS), markerGroup);
+
+  initMapFilters(places, markerGroup);
+  initMapEventListeners(map, markerGroup, places);
 };
 
-export {initMap};
+export {initMap,
+  upgradeLayer};
