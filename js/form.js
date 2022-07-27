@@ -45,5 +45,6 @@ adForm.addEventListener('submit', (evt) => {
 
 adForm.addEventListener('reset', () => {
   pristine.reset();
+  filterForm.reset();
   priceField.placeholder = RESET_PRICE_VALUE;
 });
