@@ -54,15 +54,12 @@ const filterGuests = (place) => {
   }
 };
 
-// Здесь лагает
-const filterFeatures = (place) => {
-  featureElements.every((element) => {
-    if (element.checked) {
-      return place.offer.features && place.offer.features.some((value) => value === element.value);
-    }
-    return true;
-  });
-};
+const filterFeatures = (place) => featureElements.every((element) => {
+  if (element.checked) {
+    return place.offer.features && place.offer.features.some((value) => value === element.value);
+  }
+  return true;
+});
 
 const getFilterPlaces = (places) => {
   const filteredPlaces = [];
@@ -71,7 +68,6 @@ const getFilterPlaces = (places) => {
       filterPrice(place) &&
       filterRooms(place) &&
       filterGuests(place) &&
-      // Если отключить filterFeatures, то всё работает
       filterFeatures(place);
     if (isFiltered) {
       filteredPlaces.push(place);
