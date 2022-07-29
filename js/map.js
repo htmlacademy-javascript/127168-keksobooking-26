@@ -43,7 +43,7 @@ const createMinorMarker = (place, layer) => {
 
 const setPins = (places, layer) => places.forEach((place) => createMinorMarker(place, layer));
 
-const changeAddressField = (evt) => {
+const onAddressFieldChange = (evt) => {
   const {lat, lng} = evt.target.getLatLng();
   addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
@@ -65,7 +65,7 @@ const resetMap = (map, group, places) => () => {
 };
 
 const initMapEventListeners = (map, group, places) => {
-  mainPinMarker.on('moveend', changeAddressField);
+  mainPinMarker.on('moveend', onAddressFieldChange);
   adForm.addEventListener('reset', resetMap(map, group, places));
 };
 
