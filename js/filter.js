@@ -1,6 +1,12 @@
 import {upgradeLayer} from './map.js';
 import {debounce} from './util.js';
 
+const LOW_PRICE_FILTER_VALUE = 'low';
+const LOW_OFFER_PRICE = 10000;
+const MIDDLE_PRICE_FILTER_VALUE = 'middle';
+const HIGH_PRICE_FILTER_VALUE = 'high';
+const HIGH_OFFER_PRICE = 10000;
+const ANY_VALUE = 'any';
 const ANOTHER_ADS = 10;
 
 
@@ -13,22 +19,22 @@ const featureElements = Array.from(filterForm.querySelectorAll('.map__checkbox')
 
 
 const filterType = (place) => {
-  if (typeElement.value === place.offer.type || typeElement.value === 'any') {
+  if (typeElement.value === place.offer.type || typeElement.value === ANY_VALUE) {
     return true;
   }
 };
 
 const filterPrice = (place) => {
-  if (priceElement.value === 'low' && place.offer.price < 10000) {
+  if (priceElement.value === LOW_PRICE_FILTER_VALUE && place.offer.price < LOW_OFFER_PRICE) {
     return true;
   }
-  if (priceElement.value === 'middle' && place.offer.price >= 10000 && place.offer.price <= 50000) {
+  if (priceElement.value === MIDDLE_PRICE_FILTER_VALUE && place.offer.price >= LOW_OFFER_PRICE && place.offer.price <= HIGH_OFFER_PRICE) {
     return true;
   }
-  if (priceElement.value === 'high' && place.offer.price >= 50000) {
+  if (priceElement.value === HIGH_PRICE_FILTER_VALUE && place.offer.price >= HIGH_OFFER_PRICE) {
     return true;
   }
-  if (priceElement.value === 'any') {
+  if (priceElement.value === ANY_VALUE) {
     return true;
   }
 };
@@ -37,7 +43,7 @@ const filterRooms = (place) => {
   if (+roomElement.value === place.offer.rooms) {
     return true;
   }
-  if (roomElement.value === 'any') {
+  if (roomElement.value === ANY_VALUE) {
     return true;
   }
 };
@@ -49,7 +55,7 @@ const filterGuests = (place) => {
   if (+guestsElement.value === place.offer.guests) {
     return true;
   }
-  if (guestsElement.value === 'any') {
+  if (guestsElement.value === ANY_VALUE) {
     return true;
   }
 };
