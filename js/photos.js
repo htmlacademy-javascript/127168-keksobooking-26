@@ -1,29 +1,52 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-const fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
-const fileChooserHouse = document.querySelector('.ad-form__upload input[type=file]');
-const previewAvatarContainer = document.querySelector('.ad-form-header__preview');
-const previewHouseContainer = document.querySelector('.ad-form__photo-container');
-const previewHouse = document.querySelector('.ad-form__photo');
+const adForm = document.querySelector('.ad-form');
+const fileChooserAvatar = adForm.querySelector('.ad-form__field input[type=file]');
+const fileChooserHouse = adForm.querySelector('.ad-form__upload input[type=file]');
+const previewAvatarContainer = adForm.querySelector('.ad-form-header__upload');
+const previewHouseContainer = adForm.querySelector('.ad-form__photo-container');
+const previewHouse = previewHouseContainer.querySelector('.ad-form__photo');
+let previewAvatar = previewAvatarContainer.querySelector('.ad-form-header__preview');
+
+let reservedAvatarElement;
+let reservedPreviewHouseElement;
+
+const onPhotosFieldReset = () => {
+  const elementsToDelete = adForm.querySelectorAll('.ad-form__photo');
+  elementsToDelete.forEach((element) => element.remove());
+  previewHouseContainer.append(reservedPreviewHouseElement);
+  adForm.removeEventListener('reset', onPhotosFieldReset);
+};
+
+const onAvatarFieldReset = () => {
+  previewAvatarContainer.firstElementChild.remove();
+  previewAvatar = reservedAvatarElement;
+  previewAvatarContainer.prepend(previewAvatar);
+  adForm.removeEventListener('reset', onAvatarFieldReset);
+};
 
 fileChooserAvatar.addEventListener('change', () => {
   const file = fileChooserAvatar.files[0];
-  previewAvatarContainer.lastElementChild.remove();
+  reservedAvatarElement = previewAvatar.cloneNode(true);
+  previewAvatar.lastElementChild.remove();
 
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
     const address = URL.createObjectURL(file);
-    previewAvatarContainer.style.padding = '0 35px';
-    previewAvatarContainer.style.backgroundSize  = 'auto 70px';
-    previewAvatarContainer.style.backgroundRepeat  = 'no-repeat';
-    previewAvatarContainer.style.backgroundImage = `url(${address})`;
+    previewAvatar.style.padding = '0 35px';
+    previewAvatar.style.backgroundSize  = 'auto 70px';
+    previewAvatar.style.backgroundRepeat  = 'no-repeat';
+    previewAvatar.style.backgroundImage = `url(${address})`;
   }
+
+  adForm.addEventListener('reset', onAvatarFieldReset);
 });
 
 fileChooserHouse.addEventListener('change', () => {
   const template = previewHouse.cloneNode();
+  reservedPreviewHouseElement = previewHouse.cloneNode();
   previewHouseContainer.lastElementChild.remove();
   const files = Array.from(fileChooserHouse.files);
 
@@ -39,4 +62,6 @@ fileChooserHouse.addEventListener('change', () => {
       previewHouseContainer.append(clone);
     }
   });
+
+  adForm.addEventListener('reset', onPhotosFieldReset);
 });
