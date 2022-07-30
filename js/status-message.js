@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 30000;
+const ESCAPE_KEY_CODE = 'Escape';
 
 const mapElement = document.querySelector('.map__canvas');
 
@@ -27,7 +28,7 @@ const showAlertMessage = (message) => {
 
 // Сообщения при POST
 
-const isEscape = (evt) => evt.key === 'Escape';
+const isEscape = (evt) => evt.key === ESCAPE_KEY_CODE;
 
 function onPopupEscKeydown() {
   if (isEscape) {
