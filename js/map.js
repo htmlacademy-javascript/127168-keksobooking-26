@@ -8,6 +8,7 @@ const START_COORDINATES = {
 };
 const START_SCALE = 13;
 const ANOTHER_ADS = 10;
+const FIXED_COUNTER = 5;
 
 const adForm = document.querySelector('.ad-form');
 const addressField = adForm.querySelector('#address');
@@ -45,7 +46,7 @@ const setPins = (places, layer) => places.forEach((place) => createMinorMarker(p
 
 const onAddressFieldChange = (evt) => {
   const {lat, lng} = evt.target.getLatLng();
-  addressField.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  addressField.value = `${lat.toFixed(FIXED_COUNTER)}, ${lng.toFixed(FIXED_COUNTER)}`;
 };
 
 const upgradeLayer = (group, places) => {
